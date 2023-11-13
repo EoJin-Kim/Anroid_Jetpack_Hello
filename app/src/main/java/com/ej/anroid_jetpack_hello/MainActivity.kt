@@ -5,6 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -20,20 +23,23 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Box(
+            LazyColumn(
                 modifier = Modifier
-                    .background(color = Color.Green)
-                    .fillMaxWidth()
-                    .height(200.dp),
-                contentAlignment = Alignment.TopEnd
-            ){
-                Text(text = "Hssello")
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.BottomEnd
-                ){
-                    Text(text = "Hello~~~~2")
+                    .background(
+                        color = Color.Blue
+                    )
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                item {
+                    Text(text = "Header")
+                }
+                items(50){ idx ->
+                    Text(text = "글시 $idx")
+                }
+                item {
+                    Text(text = "Footer")
                 }
             }
         }
