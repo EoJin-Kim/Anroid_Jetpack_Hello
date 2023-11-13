@@ -14,67 +14,55 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalComposeUiApi::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var isFavorite by rememberSaveable {
-                mutableStateOf(false)
+            val (text, setValue) = remember {
+                mutableStateOf("")
             }
-            ImageCard(
-                Modifier
-                    .fillMaxWidth(0.5f)
-                    .padding(16.dp),
-                isFavorite = isFavorite
-            ){
-                isFavorite = it
-            }
-        }
-    }
-}
 
-@Composable
-fun ImageCard(
-    modifier: Modifier,
-    isFavorite : Boolean,
-    onTabFavorite: (Boolean) -> Unit
-) {
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(8.dp),
-        elevation = 5.dp
-    ) {
-        Box(modifier = Modifier.height(200.dp)) {
-            Image(
-                painter = painterResource(id = R.drawable.carina),
-                contentDescription = "poster",
-                contentScale = ContentScale.Crop
-            )
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopEnd,
+            val scaffoldState = rememberScaffoldState();
+            val scope = rememberCoroutineScope()
+            val keyboardController = LocalSoftwareKeyboardController.current
+            Scaffold(
+                scaffoldState = scaffoldState
             ) {
-                IconButton(onClick = {
-                    onTabFavorite(!isFavorite)
-                }) {
-                    Icon(
-                        imageVector = if(isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "favorite",
-                        tint = Color.White
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    TextField(
+                        value = text,
+                        onValueChange = setValue,
                     )
+                    Button(
+                        onClick = {
+                            keyboardController?.hide()
+                            scope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar("Hello $text")
+                            }
+                        },
+                    ) {
+                        Text(text = "클릭!!")
+                    }
                 }
             }
-
         }
-
     }
 }
