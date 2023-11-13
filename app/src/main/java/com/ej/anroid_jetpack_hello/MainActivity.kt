@@ -20,26 +20,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Anroid_Jetpack_HelloTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Column(
-                        modifier = Modifier
-                        .background(color = Color.Blue)
-                        .padding(20.dp)
+            Box(
+                modifier = Modifier
+                    .background(color = Color.Green)
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentAlignment = Alignment.TopEnd
+            ){
+                Text(text = "Hssello")
+                Box(
+                    modifier = Modifier
                         .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween,
-
-                    ) {
-                        Text(text = "Hello")
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(text = "World")
-                    }
-
+                    contentAlignment = Alignment.BottomEnd
+                ){
+                    Text(text = "Hello~~~~2")
                 }
             }
         }
