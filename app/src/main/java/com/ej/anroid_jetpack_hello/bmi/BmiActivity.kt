@@ -1,4 +1,5 @@
-package com.ej.anroid_jetpack_hello
+package com.ej.anroid_jetpack_hello.bmi
+
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +12,7 @@ import com.ej.anroid_jetpack_hello.bmi.BmiHomeScreen
 import com.ej.anroid_jetpack_hello.bmi.BmiResultScreen
 import com.ej.anroid_jetpack_hello.bmi.BmiViewModel
 
-class MainActivity : ComponentActivity() {
+class BmiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

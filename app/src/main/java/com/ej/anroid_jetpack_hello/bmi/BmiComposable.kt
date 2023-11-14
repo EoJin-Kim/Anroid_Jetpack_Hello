@@ -25,7 +25,9 @@ import androidx.navigation.NavHostController
 import com.ej.anroid_jetpack_hello.R
 
 @Composable
-fun BmiHomeScreen(navController: NavHostController) {
+fun BmiHomeScreen(
+    onResultClicked : (Double, Double) -> Unit,
+) {
     var height by rememberSaveable {
         mutableStateOf("")
     }
@@ -70,7 +72,7 @@ fun BmiHomeScreen(navController: NavHostController) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = {
-                    navController.navigate("result")
+                    onResultClicked(height.toDouble(), weight.toDouble())
                 },
             ) {
                 Text(text = "결과")
@@ -81,6 +83,21 @@ fun BmiHomeScreen(navController: NavHostController) {
 
 @Composable
 fun BmiResultScreen(navController: NavController, bmi: Double){
+
+    val text = when {
+        bmi >= 35 -> "고도 비만"
+        bmi >= 30 -> "2단계 비만"
+        bmi >= 25 -> "1단계 비만"
+        bmi >= 23 -> "과체중"
+        bmi >= 18.5 -> "정상"
+        else -> "저체중"
+    }
+
+    val imageRes = when {
+        bmi >= 23 -> R.drawable.ic_baseline_sentiment_very_dissatisfied_24
+        bmi >= 18.5 -> R.drawable.ic_baseline_sentiment_satisfied_24
+        else -> R.drawable.ic_baseline_sentiment_dissatisfied_24
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -102,10 +119,10 @@ fun BmiResultScreen(navController: NavController, bmi: Double){
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "과체중", fontSize = 30.sp)
+            Text(text = text, fontSize = 30.sp)
             Spacer(modifier = Modifier.height(50.dp))
             Image(
-                painter = painterResource(id = R.drawable.ic_baseline_sentiment_dissatisfied_24),
+                painter = painterResource(id = imageRes),
                 contentDescription = null,
                 modifier = Modifier.size(100.dp),
                 colorFilter = ColorFilter.tint(
