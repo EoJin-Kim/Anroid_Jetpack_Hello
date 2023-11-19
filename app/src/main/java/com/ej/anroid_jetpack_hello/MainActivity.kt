@@ -27,21 +27,19 @@ import com.ej.anroid_jetpack_hello.sensor.SensorViewModel
 import com.ej.anroid_jetpack_hello.sensor.TiltScreen
 import com.ej.anroid_jetpack_hello.webview.WebViewHomeScreen
 import com.ej.anroid_jetpack_hello.webview.WebViewViewModel
+import com.ej.anroid_jetpack_hello.xylophone.XylophoneScreen
+import com.ej.anroid_jetpack_hello.xylophone.XylophoneViewModel
 
 class MainActivity : ComponentActivity() {
     
     private val viewModel by viewModels<SensorViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
-        // 화면이 꺼지지 않게 하기
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        // 화면이 가로 모드로 고저외게 하기
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        
         super.onCreate(savedInstanceState)
-        
-        lifecycle.addObserver(viewModel)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         setContent {
-            TiltScreen(x = viewModel.x.value, y = viewModel.y.value)
+            val viewModel = viewModel<XylophoneViewModel>()
+
+            XylophoneScreen(viewModel = viewModel)
         }
     }
 }
