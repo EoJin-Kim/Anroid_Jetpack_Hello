@@ -25,6 +25,9 @@ import com.ej.anroid_jetpack_hello.album.HomeScreen
 import com.ej.anroid_jetpack_hello.album.PermissionRequestScreen
 import com.ej.anroid_jetpack_hello.sensor.SensorViewModel
 import com.ej.anroid_jetpack_hello.sensor.TiltScreen
+import com.ej.anroid_jetpack_hello.todolist.domain.util.TodoAndroidViewModelFactory
+import com.ej.anroid_jetpack_hello.todolist.main.TodoScreen
+import com.ej.anroid_jetpack_hello.todolist.main.TodoViewModel
 import com.ej.anroid_jetpack_hello.webview.WebViewHomeScreen
 import com.ej.anroid_jetpack_hello.webview.WebViewViewModel
 import com.ej.anroid_jetpack_hello.xylophone.XylophoneScreen
@@ -32,14 +35,15 @@ import com.ej.anroid_jetpack_hello.xylophone.XylophoneViewModel
 
 class MainActivity : ComponentActivity() {
     
-    private val viewModel by viewModels<SensorViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         setContent {
-            val viewModel = viewModel<XylophoneViewModel>()
+            val viewModel : TodoViewModel = viewModel(
+                factory = TodoAndroidViewModelFactory(application = application)
+            )
 
-            XylophoneScreen(viewModel = viewModel)
+
+            TodoScreen(viewModel = viewModel)
         }
     }
 }
